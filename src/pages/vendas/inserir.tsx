@@ -3,7 +3,7 @@ import axios from "axios"
 import moment from "moment"
 import { FormEvent, useEffect, useState } from "react"
 
-export type Cliente = { codigo: number, nome: string }
+type Cliente = { codigo: number, nome: string }
 export type Produto = { nome: string, valorUnitario: number, quantidade: number }
 
 export default function NovaVenda() {

@@ -86,7 +86,11 @@ export default function RelatorioDeVendasPorCliente() {
                     <td>R$ {cliente.valorDeVendaAcumulado.toFixed(2)}</td>
                     <td>{moment(cliente.dataUltimoPedido).format("DD/MM/YYYY")}</td>
                     <td>
-                        <button className="btn btn-success">Editar</button>
+                        <button className="btn btn-success"
+                            onClick={() => window.location.href = 
+                                `/clientes/editar/${cliente.codigo}`
+                            }
+                        >Editar</button>
                     </td>
                     <td>
                         <button className="btn btn-danger">X</button>
