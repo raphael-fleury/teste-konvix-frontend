@@ -20,13 +20,13 @@ export default function NovoCliente() {
 
         axios.post('http://localhost:4000/api/clientes', cliente)
             .then(() => window.location.pathname = '/clientes/relatorio')
-            .catch(console.error)
+            .catch(() => alert("Erro ao cadastrar o cliente."))
     }
 
     return <>
         <h1>Novo Cliente</h1>
         <form onSubmit={onSubmit}>
-            <div className="form-group mb-2">
+            <div className="form-group mb-2 col-lg-6">
                 <label htmlFor="nome">Nome</label>
                 <input id="nome" className="form-control"
                     name="nome" required
