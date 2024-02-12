@@ -1,5 +1,6 @@
 import axios from "axios"
 import moment from "moment"
+import ReactModal from "react-modal"
 import { useEffect, useState } from "react"
 
 type Relatorio = Array<{
@@ -24,6 +25,7 @@ function OrdinationIcon({ordination, prop}:
 
 export default function RelatorioDeVendasPorCliente() {
     const [clientes, setClientes] = useState<Relatorio>([])
+    const [clienteToRemove, setClienteToRemove] = useState<Relatorio[number]>()
     const [ordination, setOrdination] = useState<Order>({
         prop: "dataUltimoPedido", asc: false
     })
@@ -45,8 +47,35 @@ export default function RelatorioDeVendasPorCliente() {
         setClientes(aux)
     }, [ordination])
 
+    function removeCliente() {
+        if (!clienteToRemove) { return }
+        const { codigo, nome} = clienteToRemove
+
+        axios.delete(`http://localhost:4000/api/clientes/${codigo}`)
+            .then(() => window.location.reload())
+            .catch(() => alert("Erro ao deletar " + nome))
+    }
+
     return <>
         <h1>Relatório de Vendas por Cliente</h1>
+        <ReactModal isOpen={!!clienteToRemove} style={{
+            content: {
+                top: '50%', bottom: 'auto',
+                left: '50%', right: 'auto',
+                marginRight: '-25%',
+                transform: 'translate(-50%, -50%)',
+            }
+        }}>
+            <h2>Deseja remover {clienteToRemove?.nome}?</h2>
+            <div className="d-flex justify-content-center gap-2 mt-4">
+                <button className="btn btn-light"
+                    onClick={() => setClienteToRemove(undefined)}
+                >Cancelar</button>
+                <button className="btn btn-danger"
+                    onClick={() => removeCliente()}
+                >Remover</button>
+            </div>
+        </ReactModal>
         <table className="table">
             <thead>
                 <tr>
@@ -93,7 +122,9 @@ export default function RelatorioDeVendasPorCliente() {
                         >Editar</button>
                     </td>
                     <td>
-                        <button className="btn btn-danger">X</button>
+                        <button className="btn btn-danger"
+                            onClick={() => setClienteToRemove(cliente)}
+                        >X</button>
                     </td>
                 </tr>
             )}</tbody>
