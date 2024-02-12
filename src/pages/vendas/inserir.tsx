@@ -7,11 +7,12 @@ export type Cliente = { codigo: number, nome: string }
 export type Produto = { nome: string, valorUnitario: number, quantidade: number }
 
 export default function NovaVenda() {
-    const now = moment().format()
+    const today = moment().format("YYYY-MM-DD")
+
+    const [dataSelecionada, setDataSelecionada] = useState(false)
+    const [clienteSelecionado, setClienteSelecionado] = useState(false)
     const [clientes, setClientes] = useState<Cliente[]>([])
-    const [produtos, setProdutos] = useState<Produto[]>([
-        {nome: "", valorUnitario: 0, quantidade: 1}
-    ])
+    const [produtos, setProdutos] = useState<Produto[]>([])
 
     useEffect(() => {
         axios.get('http://localhost:4000/api/clientes')
@@ -23,6 +24,13 @@ export default function NovaVenda() {
         setProdutos([...produtos, {
             nome: "", valorUnitario: 0, quantidade: 1
         }])
+    }
+
+    function clienteModificado() {
+        setClienteSelecionado(true)
+        if (produtos.length < 1) {
+            addProduto()
+        }
     }
 
     function updateProduto(index: number, produto: Produto) {
@@ -60,23 +68,38 @@ export default function NovaVenda() {
     return <>
         <h1>Nova Venda</h1>
         <form onSubmit={onSubmit}>
-            <div className="form-group mb-2 col-sm-4">
-                <label htmlFor="data">Data da venda</label>
-                <input id="data" className="form-control"
-                    type="date" name="data" required
-                />
-            </div>
-            <div className="form-group mb-2 col-lg-6">
-                <label htmlFor="cliente">Cliente</label>
-                <select className="form-control" id="cliente" name="codigoCliente">
-                    {clientes.map((cliente: any) =>
-                        <option key={cliente.codigo} value={cliente.codigo}>
-                            {cliente.nome}
+            <fieldset className="d-flex form-row flex-wrap justify-content-between mb-2 gap-2">
+                <div className="form-group mb-2 col-sm-4">
+                    <label htmlFor="data">Data da venda</label>
+                    <input id="data" className="form-control"
+                        type="date" name="data" required
+                        max={today}
+                        onChange={() => setDataSelecionada(true)}
+                    />
+                </div>
+                <div className="form-group mb-2 col" style={{
+                    display: dataSelecionada ? 'block': 'none'
+                }}>
+                    <label htmlFor="cliente">Cliente</label>
+                    <select id="cliente" className="form-control"
+                        name="codigoCliente" required
+                        onChange={() => clienteModificado()}
+                        defaultValue=""
+                    >
+                        <option value="" disabled>
+                            Selecione um cliente
                         </option>
-                    )}
-                </select>
-            </div>
-            <div id="produtos" className="my-4">
+                        {clientes.map((cliente: any) =>
+                            <option key={cliente.codigo} value={cliente.codigo}>
+                                {cliente.nome}
+                            </option>
+                        )}
+                    </select>
+                </div>
+            </fieldset>
+            <div id="produtos" className="my-4" style={{
+                display: clienteSelecionado ? 'block': 'none'
+            }}>
                 <h2>Produtos</h2>
                 {produtos.map((produto, index) => (
                     <ProdutoForm produto={produto}
@@ -85,11 +108,13 @@ export default function NovaVenda() {
                         onRemove={i => removeProduto(i)}
                     />
                 ))}
-                <button className="btn btn-success" 
+                <button className="btn btn-success mt-2" 
                     type="button" onClick={addProduto}
-                >+</button>
+                >Adicionar produto</button>
             </div>
-            <button type="submit" className="btn btn-primary mt-2">Cadastrar</button>
+            <button type="submit" className="btn btn-primary mt-2" disabled={produtos.length < 1}>
+                Cadastrar
+            </button>
         </form>
     </>
 }
