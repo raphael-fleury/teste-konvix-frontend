@@ -1,0 +1,13 @@
+.venda {
+    background-color: aqua;
+    border: 1px solid lightblue;
+    border-radius: 10px;
+}
+
+.venda .arrow {
+    transition: all .5s;
+}
+
+.upside-down {
+    transform: rotate(-180deg);
+}

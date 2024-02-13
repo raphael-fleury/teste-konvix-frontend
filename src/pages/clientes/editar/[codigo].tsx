@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
+import { Cliente } from "@/types/cliente"
 import PhoneInput from "@/components/phone-input"
 import axios from "axios"
 
@@ -6,11 +7,6 @@ const estadosBr = [
     'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 
     'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
 ] as const
-
-type Cliente = {
-    codigo: number, nome: string, endereco: string, numeroEndereco: number,
-    cidade: string, estado: string, telefone: string, contato: string
-}
 
 export default function EditarCliente() {
     const [cliente, setCliente] = useState<Cliente>()

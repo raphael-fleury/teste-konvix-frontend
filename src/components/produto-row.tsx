@@ -1,8 +1,8 @@
-import { Produto } from "@/pages/vendas/inserir";
+import { NovoProduto } from "@/types/produto"
 
-export default function ProdutoForm({produto, index, onChange, onRemove}: {
-        produto: Produto, index: number,
-        onChange: (produto: Produto) => void,
+export default function ProdutoRow({produto, index, onChange, onRemove}: {
+        produto: NovoProduto, index: number,
+        onChange: (produto: NovoProduto) => void,
         onRemove: (index: number) => void
     }) {
     return (
@@ -21,7 +21,7 @@ export default function ProdutoForm({produto, index, onChange, onRemove}: {
             <div className="form-group col-4">
                 <label htmlFor="valor">Valor unitário</label>
                 <input id="valor" className="form-control"
-                    type="number" required min={1}
+                    type="number" required min={0} step={0.01}
                     value={produto.valorUnitario}
                     onChange={(event) => onChange({
                         nome: produto.nome,
@@ -33,7 +33,7 @@ export default function ProdutoForm({produto, index, onChange, onRemove}: {
             <div className="form-group col">
                 <label htmlFor="quantidade">Quantidade</label>
                 <input id="quantidade" className="form-control"
-                    type="number" required min={0}
+                    type="number" required min={1}
                     value={produto.quantidade}
                     onChange={(event) => onChange({
                         nome: produto.nome,

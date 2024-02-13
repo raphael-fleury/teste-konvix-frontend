@@ -1,10 +1,9 @@
-import ProdutoForm from "@/components/produto-form"
+import { FormEvent, useEffect, useState } from "react"
+import { Cliente } from "@/types/cliente"
+import { NovoProduto } from "@/types/produto"
+import ProdutoRow from "@/components/produto-row"
 import axios from "axios"
 import moment from "moment"
-import { FormEvent, useEffect, useState } from "react"
-
-type Cliente = { codigo: number, nome: string }
-export type Produto = { nome: string, valorUnitario: number, quantidade: number }
 
 export default function NovaVenda() {
     const today = moment().format("YYYY-MM-DD")
@@ -12,7 +11,7 @@ export default function NovaVenda() {
     const [dataSelecionada, setDataSelecionada] = useState(false)
     const [clienteSelecionado, setClienteSelecionado] = useState(false)
     const [clientes, setClientes] = useState<Cliente[]>([])
-    const [produtos, setProdutos] = useState<Produto[]>([])
+    const [produtos, setProdutos] = useState<NovoProduto[]>([])
 
     useEffect(() => {
         axios.get('http://localhost:4000/api/clientes')
@@ -33,7 +32,7 @@ export default function NovaVenda() {
         }
     }
 
-    function updateProduto(index: number, produto: Produto) {
+    function updateProduto(index: number, produto: NovoProduto) {
         const aux = [...produtos]
         aux[index] = produto
         setProdutos(aux)
@@ -102,7 +101,7 @@ export default function NovaVenda() {
             }}>
                 <h2>Produtos</h2>
                 {produtos.map((produto, index) => (
-                    <ProdutoForm produto={produto}
+                    <ProdutoRow produto={produto}
                         index={index} key={index}
                         onChange={p => updateProduto(index, p)}
                         onRemove={i => removeProduto(i)}
