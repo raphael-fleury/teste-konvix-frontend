@@ -1,7 +1,7 @@
-import Venda from "@/components/venda"
-import { VendaDetalhada } from "@/types/venda"
-import axios from "axios"
 import { useEffect, useState } from "react"
+import { VendaDetalhada } from "@/types/venda"
+import Venda from "@/components/venda"
+import axios from "axios"
 
 export default function RelatorioDeVendas() {
     const [relatorio, setRelatorio] = useState<VendaDetalhada[]>([])
@@ -15,6 +15,7 @@ export default function RelatorioDeVendas() {
     return <>
         <h1>Relatório de Vendas</h1>
         <ul className="p-0">
+            {relatorio.length > 0 ? <></> : "Nenhuma venda a mostrar"}
             {relatorio.map(props => <Venda {...props} key={props.codigo}/>)}
         </ul>
     </>

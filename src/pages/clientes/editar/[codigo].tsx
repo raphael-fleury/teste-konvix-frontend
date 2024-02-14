@@ -13,7 +13,6 @@ export default function EditarCliente() {
     const [telefone, setTelefone] = useState<string>("")
 
     function convertTelefone(telefone: string) {
-        console.log(telefone)
         const ddd = telefone.substring(0,2)
         const start = telefone.substring(2, telefone.length - 4)
         const end = telefone.substring(telefone.length - 4, telefone.length)

@@ -3,9 +3,16 @@ import { useState } from "react";
 import moment from "moment";
 import "./venda.css"
 
-export default function Venda({data, valorTotal, cliente, itens}: VendaDetalhada) {
+export default function Venda({codigo, data, valorTotal, cliente, itens}: VendaDetalhada) {
     const dataBr = moment(data).format("DD/MM/YYYY")
     const [isOpen, setOpen] = useState(false)
+
+    function formatTelefone(telefone: string) {
+        const ddd = telefone.substring(0,2)
+        const start = telefone.substring(2, telefone.length - 4)
+        const end = telefone.substring(telefone.length - 4, telefone.length)
+        return `(${ddd}) ${start}-${end}`
+    }
 
     return (
         <div className="venda m-0 p-3 mb-2">
@@ -39,8 +46,15 @@ export default function Venda({data, valorTotal, cliente, itens}: VendaDetalhada
                 display: isOpen ? 'block' : 'none'
             }}>
                 <hr/>
-                <h6 className="mt-2">Cliente:</h6>
-                <div className="row justify-content-around">
+                <b className="px-1">Código da venda: {codigo}</b>
+                <h6 className="mt-2 p-1" style={{backgroundColor: "#e4e4e4"}}>Cliente</h6>
+                <div className="row justify-content-around mt-2 px-1">
+                    <div className="col">
+                        <div className="row">
+                            <b>Código:</b>
+                            <span>{cliente.codigo}</span>
+                        </div>
+                    </div>
                     <div className="col">
                         <div className="row">
                             <b>Nome:</b>
@@ -56,29 +70,35 @@ export default function Venda({data, valorTotal, cliente, itens}: VendaDetalhada
                     <div className="col">
                         <div className="row">
                             <b>Telefone:</b>
-                            <span>{cliente.telefone}</span>
+                            <span>{formatTelefone(cliente.telefone)}</span>
                         </div>
                     </div>
                 </div>
-                <h6 className="mt-2">Itens:</h6>
+                <h6 className="mt-2 p-1" style={{backgroundColor: "#e4e4e4"}}>Itens</h6>
                 {itens.map((item, index) =>
-                    <div className="row" key={index}>
-                        <div className="col-4">
+                    <div className="row mt-2 px-1" key={index}>
+                        <div className="col">
+                            <div className="row">
+                                <b>Código:</b>
+                                <span>{item.codigo}</span>
+                            </div>
+                        </div>
+                        <div className="col">
                             <div className="row">
                                 <b>Nome:</b>
                                 <span>{item.nome}</span>
                             </div>
                         </div>
-                        <div className="col-4">
+                        <div className="col">
                             <div className="row">
                                 <b>Quantidade:</b>
                                 <span>{item.quantidade}</span>
                             </div>
                         </div>
-                        <div className="col-4">
+                        <div className="col">
                             <div className="row">
                                 <b>Valor unitário:</b>
-                                <span>{item.valorUnitario}</span>
+                                <span>R$ {item.valorUnitario.toFixed(2)}</span>
                             </div>
                         </div>
                     </div>

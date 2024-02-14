@@ -119,7 +119,7 @@ export default function RelatorioDeVendasPorCliente() {
                             onClick={() => window.location.href = 
                                 `/clientes/editar/${cliente.codigo}`
                             }
-                        >Editar</button>
+                        >Editar Cliente</button>
                     </td>
                     <td>
                         <button className="btn btn-danger"
