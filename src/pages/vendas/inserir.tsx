@@ -1,11 +1,12 @@
 import { FormEvent, useEffect, useState } from "react"
 import { Cliente } from "@/types/cliente"
 import { NovoProduto } from "@/types/produto"
+import { NovaVenda } from "@/types/venda"
 import ProdutoRow from "@/components/produto-row"
 import axios from "axios"
 import moment from "moment"
 
-export default function NovaVenda() {
+export default function InserirVenda() {
     const today = moment().format("YYYY-MM-DD")
 
     const [dataSelecionada, setDataSelecionada] = useState(false)
@@ -52,10 +53,7 @@ export default function NovaVenda() {
             return
         }
 
-        const venda: any = {}
-        const formData = new FormData(event.currentTarget)
-        formData.forEach((value, key) => (venda[key] = value))
-
+        const venda = Object.fromEntries(new FormData(event.currentTarget)) as unknown as NovaVenda
         venda.codigoCliente = Number(venda.codigoCliente)
         venda.produtos = produtos
 
@@ -88,7 +86,7 @@ export default function NovaVenda() {
                         <option value="" disabled>
                             Selecione um cliente
                         </option>
-                        {clientes.map((cliente: any) =>
+                        {clientes.map((cliente: Cliente) =>
                             <option key={cliente.codigo} value={cliente.codigo}>
                                 {cliente.nome}
                             </option>

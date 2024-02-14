@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
-import { Cliente } from "@/types/cliente"
+import { Cliente, NovoCliente } from "@/types/cliente"
 import PhoneInput from "@/components/phone-input"
 import axios from "axios"
 
@@ -35,10 +35,7 @@ export default function EditarCliente() {
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
-        const cliente: any = {}
-        const formData = new FormData(event.currentTarget)
-        formData.forEach((value, key) => (cliente[key] = value))
-
+        const cliente = Object.fromEntries(new FormData(event.currentTarget)) as unknown as NovoCliente
         cliente.numeroEndereco = Number(cliente.numeroEndereco)
         cliente.telefone = telefone.replaceAll(/[{()}-\s]/g, '')
 

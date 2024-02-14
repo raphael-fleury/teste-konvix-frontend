@@ -1,8 +1,9 @@
+import { AppProps } from "next/app";
+import Navbar from "@/components/navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../app/globals.css";
-import Navbar from "@/components/navbar";
 
-export default function App({ Component, pageProps }: any) {
+export default function App({ Component, pageProps }: AppProps) {
     return <>
         <Navbar></Navbar>
         <main className="p-3">

@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react"
 import axios from "axios"
 import moment from "moment"
 import ReactModal from "react-modal"
-import { useEffect, useState } from "react"
 
 type Relatorio = Array<{
     codigo: number,

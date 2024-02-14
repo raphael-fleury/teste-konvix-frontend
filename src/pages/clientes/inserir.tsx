@@ -1,22 +1,20 @@
-import PhoneInput from "@/components/phone-input"
-import axios from "axios"
 import { FormEvent } from "react"
+import { NovoCliente } from "@/types/cliente"
+import axios from "axios"
+import PhoneInput from "@/components/phone-input"
 
 const estadosBr = [
     'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 
     'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
 ] as const
 
-export default function NovoCliente() {
+export default function InserirCliente() {
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
-        const cliente: any = {}
-        const formData = new FormData(event.currentTarget)
-        formData.forEach((value, key) => (cliente[key] = value))
-
+        const cliente = Object.fromEntries(new FormData(event.currentTarget)) as unknown as NovoCliente
         cliente.numeroEndereco = Number(cliente.numeroEndereco)
-        cliente.telefone = cliente.telefone.replaceAll(/[{()}-\s]/g, '')
+        cliente.telefone = cliente.telefone?.replaceAll(/[{()}-\s]/g, '')
 
         axios.post('http://localhost:4000/api/clientes', cliente)
             .then(() => window.location.pathname = '/clientes/relatorio')
