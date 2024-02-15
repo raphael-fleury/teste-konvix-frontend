@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react"
 import { VendaDetalhada } from "@/types/venda"
 import Venda from "@/components/venda"
-import axios from "axios"
+import api from "@/utils/request"
 import moment from "moment"
 
 export default function RelatorioDeVendas() {
@@ -10,7 +10,7 @@ export default function RelatorioDeVendas() {
     const [relatorio, setRelatorio] = useState<VendaDetalhada[]>([])
 
     useEffect(() => {
-        axios.get('http://localhost:4000/api/vendas/relatorio')
+        api.get('/api/vendas/relatorio')
             .then(({data}) => setRelatorio(data))
             .catch(() => alert("Erro ao buscar o relatório."))
     }, [])
@@ -19,10 +19,13 @@ export default function RelatorioDeVendas() {
         event.preventDefault()
 
         const formData = new FormData(event.currentTarget)
+        const params: any = {}
         const inicio = formData.get('inicio')
         const fim = formData.get('fim')
+        if (inicio) params.inicio = inicio
+        if (fim) params.fim = fim
 
-        axios.get(`http://localhost:4000/api/vendas/relatorio?inicio=${inicio}&fim=${fim}`)
+        api.get(`/api/vendas/relatorio`, {params})
             .then(({data}) => setRelatorio(data))
             .catch(() => alert("Erro ao buscar o relatório."))
     }
@@ -35,7 +38,7 @@ export default function RelatorioDeVendas() {
                     <div className="form-group mb-2">
                         <label htmlFor="inicio">Início</label>
                         <input id="inicio" className="form-control"
-                            type="date" name="inicio" max={hoje} required
+                            type="date" name="inicio" max={hoje}
                         />
                     </div>
                 </div>
@@ -43,7 +46,7 @@ export default function RelatorioDeVendas() {
                     <div className="form-group mb-2">
                         <label htmlFor="fim">Fim</label>
                         <input id="fim" className="form-control"
-                            type="date" name="fim" max={hoje} required
+                            type="date" name="fim" max={hoje}
                         />
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
+import api from "@/utils/request"
 import moment from "moment"
 import ReactModal from "react-modal"
 
@@ -31,7 +31,7 @@ export default function RelatorioDeVendasPorCliente() {
     })
 
     useEffect(() => {
-        axios.get('http://localhost:4000/api/clientes/relatorio')
+        api.get('/api/clientes/relatorio')
             .then(({data}) => setClientes(data))
             .catch(() => alert("Erro ao buscar os clientes."))
     }, [])
@@ -51,7 +51,7 @@ export default function RelatorioDeVendasPorCliente() {
         if (!clienteToRemove) { return }
         const { codigo, nome} = clienteToRemove
 
-        axios.delete(`http://localhost:4000/api/clientes/${codigo}`)
+        api.delete(`/api/clientes/${codigo}`)
             .then(() => window.location.reload())
             .catch(() => alert("Erro ao deletar " + nome))
     }
@@ -115,11 +115,9 @@ export default function RelatorioDeVendasPorCliente() {
                     <td>R$ {cliente.valorDeVendaAcumulado.toFixed(2)}</td>
                     <td>{moment(cliente.dataUltimoPedido).format("DD/MM/YYYY")}</td>
                     <td>
-                        <button className="btn btn-success"
-                            onClick={() => window.location.href = 
-                                `/clientes/editar/${cliente.codigo}`
-                            }
-                        >Editar Cliente</button>
+                        <button className="btn btn-success" onClick={() => 
+                            window.location.href = `/clientes/editar/${cliente.codigo}`
+                        }>Editar Cliente</button>
                     </td>
                     <td>
                         <button className="btn btn-danger"

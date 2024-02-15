@@ -1,6 +1,6 @@
 import { FormEvent } from "react"
 import { NovoCliente } from "@/types/cliente"
-import axios from "axios"
+import api from "@/utils/request"
 import PhoneInput from "@/components/phone-input"
 
 const estadosBr = [
@@ -16,8 +16,8 @@ export default function InserirCliente() {
         cliente.numeroEndereco = Number(cliente.numeroEndereco)
         cliente.telefone = cliente.telefone?.replaceAll(/[{()}-\s]/g, '')
 
-        axios.post('http://localhost:4000/api/clientes', cliente)
-            .then(() => window.location.pathname = '/clientes/relatorio')
+        api.post('/api/clientes', cliente)
+            .then(() => window.location.href = '/clientes/relatorio')
             .catch(() => alert("Erro ao cadastrar o cliente."))
     }
 

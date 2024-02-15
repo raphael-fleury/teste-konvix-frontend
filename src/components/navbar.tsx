@@ -1,4 +1,11 @@
+import { logout } from "@/utils/logout";
+
 export default function Navbar() {
+    function sair(event: any) {
+        event.preventDefault()
+        logout()
+    }
+
     return (
         <header>
             <ul className="nav justify-content-center">
@@ -15,7 +22,9 @@ export default function Navbar() {
                     <a className="nav-link" href="/clientes/relatorio">Relatório de Vendas por Cliente</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="">Sair</a>
+                    <a className="nav-link" href="" style={{color: "mediumvioletred"}}
+                        onClick={sair}
+                    >Sair</a>
                 </li>
             </ul>
         </header>

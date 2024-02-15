@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react"
 import { Cliente, NovoCliente } from "@/types/cliente"
 import PhoneInput from "@/components/phone-input"
-import axios from "axios"
+import api from "@/utils/request"
 
 const estadosBr = [
     'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 
@@ -21,7 +21,7 @@ export default function EditarCliente() {
 
     useEffect(() => {
         const codigo = window.location.href.split('/').pop()
-        axios.get(`http://localhost:4000/api/clientes/${codigo}`)
+        api.get(`/api/clientes/${codigo}`)
             .then(({data}) => {
                 setCliente(data)
                 setTelefone(convertTelefone(data.telefone))
@@ -40,8 +40,8 @@ export default function EditarCliente() {
         cliente.telefone = telefone.replaceAll(/[{()}-\s]/g, '')
 
         const codigo = window.location.href.split('/').pop()
-        axios.put(`http://localhost:4000/api/clientes/${codigo}`, cliente)
-            .then(() => window.location.pathname = '/clientes/relatorio')
+        api.put(`/api/clientes/${codigo}`, cliente)
+            .then(() =>  window.location.href = '/clientes/relatorio')
             .catch(() => alert("Erro ao salvar as alterações."))
     }
 

@@ -3,7 +3,7 @@ import { Cliente } from "@/types/cliente"
 import { NovoProduto } from "@/types/produto"
 import { NovaVenda } from "@/types/venda"
 import ProdutoRow from "@/components/produto-row"
-import axios from "axios"
+import api from "@/utils/request"
 import moment from "moment"
 
 export default function InserirVenda() {
@@ -15,7 +15,7 @@ export default function InserirVenda() {
     const [produtos, setProdutos] = useState<NovoProduto[]>([])
 
     useEffect(() => {
-        axios.get('http://localhost:4000/api/clientes')
+        api.get('/api/clientes')
             .then(({data}) => setClientes(data))
             .catch(() => alert("Erro ao buscar os clientes."))
     }, [])
@@ -57,8 +57,8 @@ export default function InserirVenda() {
         venda.codigoCliente = Number(venda.codigoCliente)
         venda.produtos = produtos
 
-        axios.post('http://localhost:4000/api/vendas', venda)
-            .then(() => window.location.pathname = '/vendas/relatorio')
+        api.post('/api/vendas', venda)
+            .then(() => window.location.href = '/vendas/relatorio')
             .catch(() => alert("Erro ao cadastrar a venda."))
     }
 
