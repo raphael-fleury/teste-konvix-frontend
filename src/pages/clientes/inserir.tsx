@@ -16,7 +16,7 @@ export default function InserirCliente() {
         cliente.numeroEndereco = Number(cliente.numeroEndereco)
         cliente.telefone = cliente.telefone?.replaceAll(/[{()}-\s]/g, '')
 
-        api.post('/api/clientes', cliente)
+        api.post('/api/clientes', cliente, {headers: {Authorization: localStorage.getItem("token")}})
             .then(() => window.location.href = '/clientes/relatorio')
             .catch(() => alert("Erro ao cadastrar o cliente."))
     }

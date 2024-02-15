@@ -21,7 +21,7 @@ export default function EditarCliente() {
 
     useEffect(() => {
         const codigo = window.location.href.split('/').pop()
-        api.get(`/api/clientes/${codigo}`)
+        api.get(`/api/clientes/${codigo}`, {headers: {Authorization: localStorage.getItem("token")}})
             .then(({data}) => {
                 setCliente(data)
                 setTelefone(convertTelefone(data.telefone))
@@ -40,7 +40,7 @@ export default function EditarCliente() {
         cliente.telefone = telefone.replaceAll(/[{()}-\s]/g, '')
 
         const codigo = window.location.href.split('/').pop()
-        api.put(`/api/clientes/${codigo}`, cliente)
+        api.put(`/api/clientes/${codigo}`, cliente, {headers: {Authorization: localStorage.getItem("token")}})
             .then(() =>  window.location.href = '/clientes/relatorio')
             .catch(() => alert("Erro ao salvar as alterações."))
     }

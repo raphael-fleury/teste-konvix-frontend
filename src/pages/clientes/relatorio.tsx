@@ -31,7 +31,7 @@ export default function RelatorioDeVendasPorCliente() {
     })
 
     useEffect(() => {
-        api.get('/api/clientes/relatorio')
+        api.get('/api/clientes/relatorio', {headers: {Authorization: localStorage.getItem("token")}})
             .then(({data}) => setClientes(data))
             .catch(() => alert("Erro ao buscar os clientes."))
     }, [])
@@ -51,7 +51,7 @@ export default function RelatorioDeVendasPorCliente() {
         if (!clienteToRemove) { return }
         const { codigo, nome} = clienteToRemove
 
-        api.delete(`/api/clientes/${codigo}`)
+        api.delete(`/api/clientes/${codigo}`, {headers: {Authorization: localStorage.getItem("token")}})
             .then(() => window.location.reload())
             .catch(() => alert("Erro ao deletar " + nome))
     }

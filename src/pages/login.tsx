@@ -4,7 +4,7 @@ import "./login.css"
 
 export default function Login() {
     useEffect(() => {
-        if (localStorage.getItem('usuario'))
+        if (localStorage.getItem('token'))
             window.location.href = '/'
     })
 
@@ -15,7 +15,7 @@ export default function Login() {
 
         api.post('/api/usuario/login', {email, senha})
             .then(({data}) => {
-                localStorage.setItem('usuario', JSON.stringify(data))
+                localStorage.setItem('token', data.token)
                 window.location.href = '/'
             })
             .catch(({response}) => alert(response?.data?.message || "Erro ao fazer login."))

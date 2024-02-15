@@ -15,7 +15,7 @@ export default function InserirVenda() {
     const [produtos, setProdutos] = useState<NovoProduto[]>([])
 
     useEffect(() => {
-        api.get('/api/clientes')
+        api.get('/api/clientes', {headers: {Authorization: localStorage.getItem("token")}})
             .then(({data}) => setClientes(data))
             .catch(() => alert("Erro ao buscar os clientes."))
     }, [])
@@ -57,7 +57,7 @@ export default function InserirVenda() {
         venda.codigoCliente = Number(venda.codigoCliente)
         venda.produtos = produtos
 
-        api.post('/api/vendas', venda)
+        api.post('/api/vendas', venda, {headers: {Authorization: localStorage.getItem("token")}})
             .then(() => window.location.href = '/vendas/relatorio')
             .catch(() => alert("Erro ao cadastrar a venda."))
     }

@@ -10,7 +10,7 @@ export default function RelatorioDeVendas() {
     const [relatorio, setRelatorio] = useState<VendaDetalhada[]>([])
 
     useEffect(() => {
-        api.get('/api/vendas/relatorio')
+        api.get('/api/vendas/relatorio', {headers: {Authorization: localStorage.getItem("token")}})
             .then(({data}) => setRelatorio(data))
             .catch(() => alert("Erro ao buscar o relatório."))
     }, [])
@@ -25,7 +25,7 @@ export default function RelatorioDeVendas() {
         if (inicio) params.inicio = inicio
         if (fim) params.fim = fim
 
-        api.get(`/api/vendas/relatorio`, {params})
+        api.get(`/api/vendas/relatorio`, {params, headers: {Authorization: localStorage.getItem("token")}})
             .then(({data}) => setRelatorio(data))
             .catch(() => alert("Erro ao buscar o relatório."))
     }

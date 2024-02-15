@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
     useEffect(() => {
         if (window.location.href.endsWith('login') || window.location.href.endsWith('registrar'))
             setLogado(false)
-        else if (!localStorage.getItem('usuario'))
+        else if (!localStorage.getItem('token'))
             window.location.href = '/login'
     })
 
